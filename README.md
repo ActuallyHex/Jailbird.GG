@@ -1,8 +1,8 @@
 # Jailbird.GG
 
-# Script/GUI for the game Jailbird.
+Script/GUI for the game Jailbird.
 
-# ----> **SYNAPSE X ONLY** <----
+ ----> **SYNAPSE X ONLY** <----
 
 *Update coming soon too
 
