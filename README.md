@@ -1,5 +1,8 @@
 # Jailbird.GG
-Script/GUI for the game Jailbird. THIS WILL ONLY WORK WITH SYNAPSE X!
+Script/GUI for the game Jailbird.
+----> **SYNAPSE X ONLY** <----
+
+*Update coming soon too
 
 Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-12-4`
 
