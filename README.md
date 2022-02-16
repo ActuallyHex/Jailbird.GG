@@ -4,16 +4,10 @@ Script/GUI for the game Jailbird.
 
  ----> **SYNAPSE X ONLY** <----
 
-*Update coming soon too
-
 Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-12-4`
 
 loadstring:
 `loadstring(game:HttpGet("https://raw.githubusercontent.com/ActuallyHex/Jailbird.GG/main/JailbirdGG.lua", true))()`
-
-# Youtube Disclaimer!
-If you want to make a Youtube video, I give you full permission under the conditions that the link to the script must send the viewers STRAIGHT to this github page. If you find a person who is doing boost links, linkvertise, adfly, or pastebin please bring it to my attention.
-
 
 
 # Menu Features
@@ -49,6 +43,6 @@ If you want to make a Youtube video, I give you full permission under the condit
   * Adjustable Menu Themes
 
 
-# Why?
+# Youtube Disclaimer!
+If you want to make a Youtube video, I give you full permission under the conditions that the link to the script must send the viewers STRAIGHT to this github page. If you find a person who is doing boost links, linkvertise, adfly, or pastebin please bring it to my attention.
 
-This is a kinda small and relativley new game and I couldnt find any good menus/scripts for it specifically so I decided to make one. This uses the Venyx menu lib since im dumb, lazy, and didnt want to make my own menu. Very good for beginners (like me). This is mt first time releasing one of the scripts I make since most of them kinda suck and are very badly coded as im relativley new to lua. Anyways, hope you enjoy and ill probably be updating this for a bit.
