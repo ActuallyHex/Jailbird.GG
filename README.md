@@ -4,7 +4,7 @@ Script/GUI for the game Jailbird.
 
  ----> **SYNAPSE X ONLY** <----
 
-Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-12-4`
+Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-15-2`
 
 loadstring:
 `loadstring(game:HttpGet("https://raw.githubusercontent.com/ActuallyHex/Jailbird.GG/main/JailbirdGG.lua", true))()`
