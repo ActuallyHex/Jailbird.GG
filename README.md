@@ -10,6 +10,7 @@ loadstring:
 `loadstring(game:HttpGet("https://raw.githubusercontent.com/ActuallyHex/Jailbird.GG/main/JailbirdGG.lua", true))()`
 
 `This script is still a W.I.P so things are expected to be a bit scuffed`
+
 `Discord link: https://discord.gg/u7psbSZBeM`
 
 # Menu Features
