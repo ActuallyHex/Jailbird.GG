@@ -9,6 +9,7 @@ Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-15-2`
 loadstring:
 `loadstring(game:HttpGet("https://raw.githubusercontent.com/ActuallyHex/Jailbird.GG/main/JailbirdGG.lua", true))()`
 
+`This script is still a W.I.P so things are expected to be a bit scuffed`
 
 # Menu Features
 
