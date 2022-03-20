@@ -653,7 +653,7 @@ local Toggle3Dist = Section1:CreateToggle("Distance", nil, function (bool)
                     NameDist.Outline = true
                     NameDist.Font = 0
                     NameDist.Size = 16
-                    NameDist.Color = Color3.new(1,1,1) --> or any color, using FromRGB
+                    NameDist.Color = Color3.new(1,1,1)
                     NameDist.Text = v.Character.Name
     
                     local RootPart = v.Character.HumanoidRootPart
@@ -1625,8 +1625,6 @@ local Toggle10 = SectionMM2:CreateToggle("Player Mods", false, function (bool)
 
 end)
 
--- game:GetService("Workspace").LinguineLazer
-
 local Slider7 = SectionMM2:CreateSlider("Player Speed", 10, 300, 10, false, function (value)
     
     playerMods.Speed = value
@@ -1638,8 +1636,6 @@ local Slider9 = SectionMM2:CreateSlider("Player Jump Height", 10, 300, 10, false
     playerMods.Height = value
 
 end)
-
--- game:GetService("Workspace").LinguineLazer.Torso
 
 local Toggle11 = SectionMM2:CreateToggle("Fly (kinda buggy)", nil, function (bool)
 
@@ -1761,9 +1757,6 @@ local toggle12 = SectionMM3:CreateToggle("Enable Chat Spammer", nil, function (b
     
 end)
 
---local sectionMM4 = Tab5:CreateSection("Teleports")
---local toggle15 = sectionMM4:CreateToggle("Teleport Players To You", nil , function (bool)
---end)
 
 local toggle16 = sectionMM4:CreateToggle("Teleport To Players (Loop)", nil, function (bool)
     
@@ -1798,8 +1791,6 @@ end)
 local TPSliderZ= sectionMM4:CreateSlider("TP Z Offset",-15,15,0,false, function (value)
     TPz = value
 end)
-
---local tlprtDropdown = sectionMM4:CreateDropdown("")
 
 -------------  Theme settings and shit (leave alone)
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
@@ -1851,11 +1842,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.0)
-
--- local Sayings = {"#GG!","EZ Win","Slammed NN", "Bruh", "GG!", ""} --  Maybe add these to the title so it picks a random one and then shows in the title bar idk
--- Keep all the same values when you disable esp and then re-enable it because for some reason it make a whole new esp box instead of using the one already made??
--- Add chat spammer
--- somehow maybe bypass kicking script??
 
 ------- Config Section
 
