@@ -2,16 +2,16 @@
 
 Script/GUI for the game Jailbird.
 
+!! -> This script is still a W.I.P so things are expected to be a bit scuffed <- !!
+
+Released full source for the menu because I dont want to work on it avidly anymore. Expect sparse updates and minor changes and tweaks here and there. Ill try and work on optimization if I do end up working on the script in the future since its in no way optimized.
+
  ----> **SYNAPSE X ONLY** <----
 
 Game Link: `https://www.roblox.com/games/6055959032/Jailbird-Beta-15-2`
 
 loadstring:
 `loadstring(game:HttpGet("https://raw.githubusercontent.com/ActuallyHex/Jailbird.GG/main/JailbirdGG.lua", true))()`
-
-!! -> This script is still a W.I.P so things are expected to be a bit scuffed <- !!
-
-Released full source for the menu because I dont want to work on it avidly anymore. Expect sparse updates and minor changes and tweaks here and there. Ill try and work on optimization if I do end up working on the script in the future since its in no way optimized.
 
 
 `Discord link: https://discord.gg/u7psbSZBeM`
