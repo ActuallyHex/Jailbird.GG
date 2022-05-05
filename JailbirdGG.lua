@@ -10,10 +10,7 @@ local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 
 local Window = Library:CreateWindow({Title = "Jailbird.gg V3", Center = true, AutoShow = true})
 
-local Fonts = {};
-for Font, _ in next, Drawing.Fonts do
-	table.insert(Fonts, Font);
-end;
+local Fonts = {1,2,3};
 
 local skinTable = {""}
 for i,v in pairs(game:GetService("ReplicatedStorage").Items.Skin:GetChildren()) do	
@@ -24,21 +21,26 @@ for i,v in pairs(game:GetService("ReplicatedStorage").Items.Skin:GetChildren()) 
 	end
 end
 
+local Loadout = {""}
+for i,v in pairs(game.Players.LocalPlayer.PlayerData.Loadout:GetChildren()) do
+    if v:IsA("Folder") then
+        table.insert(Loadout, v.Name)
+        table.sort(Loadout)
+
+    end
+end
 
 local flyBool = false
-
 local Material1 = {"Plastic", "Neon", "ForceField"}
 local Material2 = {"Plastic", "Neon", "ForceField"}
-local Skins = {"Skin1", "Skin2", "Skin3"}
-local Loadout = {"Loadout1", "Loadout2", "Loadout3", "Loadout4", "Loadout5"}
 local AimParts = {"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"}
 local SnapParts = {"Head", "Torso", "Legs"}
 local UIFont = 1
 
-Library:SetWatermark("Jailbird.gg V3 | " .. os.date("%x") .. " | v1.1 ")
+Library:SetWatermark("Jailbird.gg V3 | " .. os.date("%x") .. " | v1.2")
 Library:Notify("Loading UI...")
-Library:Notify("Newest Version | v1.1 ")
-Library:Notify("Right Shift to Open the Menu")
+Library:Notify("Newest Version | v1.2")
+Library:Notify("Right Shift to Open/Close the Menu")
 
 local AimTab = Window:AddTab("Aimbot")
 local VisTab = Window:AddTab("Visuals")
@@ -49,7 +51,7 @@ local AimbotTabbox1 = AimTab:AddLeftTabbox("Aimbot")
 local Aim1 = AimbotTabbox1:AddTab("Aimbot")
 Aim1:AddToggle("aim_enabled", {Text = "Enable"}):AddKeyPicker("aim_key", {Text = "Aimbot", Default = "X", Mode = "Hold"})
 Aim1:AddToggle("fov_Circle", {Text = "FOV Circle"}):AddColorPicker("fovColor", { Default = Color3.fromRGB(255, 255, 255) })
-Aim1:AddSlider("aimbot_distance", {Text = "Aimbot Distance", Default = 300, Min = 50, Max = 500, Rounding = 0})
+Aim1:AddSlider("aimbot_distance", {Text = "Aimbot Distance", Default = 500, Min = 50, Max = 500, Rounding = 0})
 Aim1:AddSlider("circle_radius", {Text = "Circle Radius", Default = 250, Min = 50, Max = 600, Rounding = 0})
 Aim1:AddDropdown("aim_part", {Text = "Aim Part", Default = 1, Values = AimParts})
 
@@ -64,45 +66,32 @@ Esp1:AddToggle("snaplines", {Text = "Snaplines"})
 
 local Esp2 = VisTabbox1:AddTab("ESP Settings")
 Esp2:AddSlider("FontSize", {Text = "Font Size", Default = 14, Min = 8, Max = 24, Rounding = 0})
+Esp2:AddSlider("esp_distance", {Text = "ESP Distance", Default = 500, Min = 0, Max = 500, Rounding = 0})
 Esp2:AddDropdown("SelectedFont", { Text = "ESP Font", Default = 1, Values = Fonts })
 Esp2:AddDropdown("SnaplinePart", {Text = "Snapline Part", Default = 1, Values = SnapParts})
 
-if Options.SelectedFont.Value == "UI" then  
-    UIFont = 1
-else 
-    if Options.SelectedFont.Value == "Monospace" then
-        UIFont = 2
-    else
-        if Options.SelectedFont.Value == "Plex" then
-            UIFont = 3
-        else
-            UIFont = 4
-        end
-    end
-end
-
 local VisTabbox2 = VisTab:AddLeftTabbox("Local Chams")
 local Chams1 = VisTabbox2:AddTab("Local")
-Chams1:AddSlider("player_fov", {Text = "FOV", Default = 70, Min = 40, Max = 120, Rounding = 0})
+--Chams1:AddSlider("player_fov", {Text = "FOV", Default = 70, Min = 40, Max = 120, Rounding = 0})
 Chams1:AddToggle("gun_chams", {Text = "Gun Chams"}):AddColorPicker("gunColor", { Default = Color3.fromRGB(255, 255, 255) })
-Chams1:AddSlider("gun_chams_transparency", { Text = "Gun Chams Transparency", Default = 0, Min = 0, Max = 1, Rounding = 2})
+--Chams1:AddSlider("gun_chams_transparency", { Text = "Gun Chams Transparency", Default = 0, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
 Chams1:AddDropdown("gun_mat", {Text = "Gun Material", Default = 1, Values = Material1})
 Chams1:AddToggle("hand_chams", {Text = "Local Player Model Chams"}):AddColorPicker("handColor", { Default = Color3.fromRGB(255, 255, 255) })
-Chams1:AddSlider("hand_chams_transparency", { Text = "Hand Chams Transparency", Default = 0, Min = 0, Max = 1, Rounding = 2})
+Chams1:AddSlider("hand_chams_transparency", { Text = "Hand Chams Transparency", Default = 100, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
 Chams1:AddDropdown("hand_mat", {Text = "Hand Material", Default = 1, Values = Material2})
 
 local Chams2 = VisTabbox2:AddTab("Enemy Chams")
 Chams2:AddToggle("enemy_chams", {Text = "Enemy Chams"}):AddColorPicker("eColor", { Default = Color3.fromRGB(255, 255, 255) })
 Chams2:AddToggle("enemy_chams_ontop", {Text = "Always on Top"})
-Chams2:AddSlider("enemy_chams_transparency", { Text = "Chams Transparency", Default = 0, Min = 0, Max = 1, Rounding = 2 })
-Chams2:AddSlider("enemy_transparency", { Text = "Enemy Transparency", Default = 0, Min = 0, Max = 1, Rounding = 2 })
+Chams2:AddSlider("enemy_chams_transparency", { Text = "Chams Transparency", Default = 0, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
+Chams2:AddSlider("enemy_transparency", { Text = "Enemy Transparency", Default = 0, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
 
 local VisTabbox3 = VisTab:AddRightTabbox("Crosshair")
 local Cross1 = VisTabbox3:AddTab("Crosshair")
 Cross1:AddToggle("crosshair", {Text = "Enable"}):AddColorPicker("crossColor", { Default = Color3.fromRGB(255, 255, 255) })
 Cross1:AddSlider("cross_length", { Text = "Crosshair Length", Default = 12, Min = 2, Max = 64, Rounding = 0, Suffix = "px"})
 Cross1:AddSlider("cross_thickness", { Text = "Crosshair Thickness", Default = 1, Min = 1, Max = 10, Rounding = 0})
-Cross1:AddSlider("cross_trans", { Text = "Crosshair Transparency", Default = 1, Min = 0, Max = 1, Rounding = 2 })
+Cross1:AddSlider("cross_trans", { Text = "Crosshair Transparency", Default = 100, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
 
 local VisTabbox4 = VisTab:AddRightTabbox("Render")
 local Rend1 = VisTabbox4:AddTab("Render")
@@ -125,10 +114,8 @@ local Load = VisTabbox5:AddTab("Loadout")
 Load:AddDropdown("loadout", {Text = "Loadout", Default = 1, Values = Loadout })
 
 local World1 = VisTabbox4:AddTab("World")
-World1:AddToggle("no_barricades", {Text = "Destroy All Barricades"})
-World1:AddToggle("no_barrier", {Text = "Destroy Pre-Round Barrier"})
 World1:AddToggle("transparent_walls", {Text = "Transparent Walls"})
-World1:AddSlider("wall_transparency", { Text = "Wall Transparency", Default = 0, Min = 0, Max = 1, Rounding = 2})
+World1:AddSlider("wall_transparency", { Text = "Wall Transparency", Default = 0, Min = 0, Max = 100, Rounding = 0, Suffix = "%"})
 
 local PlayerTabbox1 = RageTab:AddLeftTabbox("Player")
 local Player1 = PlayerTabbox1:AddTab("Player")
@@ -136,12 +123,20 @@ Player1:AddToggle("plr_mod", {Text = "Player Modification"})
 Player1:AddSlider("player_speed", { Text = "Player Speed", Default = 10, Min = 10, Max = 100, Rounding = 0})
 Player1:AddSlider("player_height", { Text = "Player Jump Height", Default = 30, Min = 30, Max = 100, Rounding = 0})
 
+local function TPSpawnBox()
+    workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame = game:GetService("Workspace").SpawnLocation.CFrame
+end
+
+
 local ExploitsTabbox1 = RageTab:AddRightTabbox("Exploits")
 local Exploits1 = ExploitsTabbox1:AddTab("Exploits")
+Exploits1:AddToggle("no_barricades", {Text = "Destroy All Barricades"})
+Exploits1:AddToggle("no_barrier", {Text = "Destroy Pre-Round Barrier"})
 Exploits1:AddLabel("Fly"):AddKeyPicker("flyKey", {Text = "Fly", Default = "LeftBracket"})
 Exploits1:AddLabel("Teleport Peek"):AddKeyPicker("peekKey", {Text = "Teleport Peek", Default = "RightBracket", Mode = "Hold"}) --:AddTooltip("When held your position is saved and once the keybind is let go you teleport back to the first position you held the button on")
 Exploits1:AddLabel("Phase"):AddKeyPicker("phaseKey", {Text = "Phase Key", Default = "Semicolon", Mode = "Hold"}) --:AddTooltip("When held you can freely phase through objects")
 Exploits1:AddLabel("TP Death Loop Key"):AddKeyPicker("tpLoopKey", {Text = "TP Death Loop Key", Default = "Comma"})
+Exploits1:AddButton("TP To Spawn Box", TPSpawnBox)
 
 local ExploitsTabbox2 = RageTab:AddLeftTabbox("Gun Mods")
 local Exploits2 = ExploitsTabbox2:AddTab("Gun Mods")
@@ -149,7 +144,6 @@ Exploits2:AddToggle("gunMods", {Text = "Gun Mods"})
 Exploits2:AddToggle("noSway", {Text = "No Sway"})
 Exploits2:AddToggle("infAmmo", {Text = "Infinite Ammo"})
 Exploits2:AddSlider("fireRate", { Text = "Fire Rate", Default = 2700, Min = 2500, Max = 5000, Rounding = 0})
-
 
 local function UpdateTheme()
     Library.BackgroundColor = Options.BackgroundColor.Value;
@@ -249,6 +243,7 @@ end)
 local Extra = SettingsTab:AddRightTabbox("Extras")
 local Feats = Extra:AddTab("Extras")
 Feats:AddButton("Teleport back to lobby", tp)
+Feats:AddLabel("      discord.gg/u7psbSZBeM")
 
 Theme:AddButton("Unload", function ()
     Library:Unload()
@@ -326,6 +321,8 @@ local BoxESP = function ()
     
                     if onScreen and Toggles.boxes.Value == true or onScreen and Toggles.health_bar.Value == true then
     
+                        local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                         BoxOutline.Size = Vector2.new(1650 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
                         BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
                         --BoxOutline.Visible = false
@@ -342,14 +339,9 @@ local BoxESP = function ()
                         HealthBar.Position = Vector2.new(Box.Position.X - 6, Box.Position.Y + (1 / HealthBar.Size.Y))
                         HealthBar.Color = Color3.fromRGB(255 - 255 / (workspace[v.Character.Name].Humanoid.MaxHealth / workspace[v.Character.Name].Humanoid.Health), 255 / (workspace[v.Character.Name].Humanoid.MaxHealth / workspace[v.Character.Name].Humanoid.Health), 0)
                         --HealthBar.Visible = false
-    
-                        if v.TeamColor == lplr.TeamColor then
-                            BoxOutline.Visible = false
-                            Box.Visible = false
-                            HealthBar.Visible = false
-                            HealthBarOutline.Visible = false
-                        else
-    
+
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
+
                             if Toggles.boxes.Value == true then
                                 BoxOutline.Visible = true
                                 Box.Visible = true
@@ -365,7 +357,12 @@ local BoxESP = function ()
                                 HealthBar.Visible = false
                                 HealthBarOutline.Visible = false
                             end
-    
+
+                        else
+                            BoxOutline.Visible = false
+                            Box.Visible = false
+                            HealthBar.Visible = false
+                            HealthBarOutline.Visible = false
                         end
     
                     else
@@ -425,6 +422,8 @@ local BoxESP = function ()
     
                     if onScreen and Toggles.boxes.Value == true or onScreen and Toggles.health_bar.Value == true then
     
+                        local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                         BoxOutline.Size = Vector2.new(1650 / RootPosition.Z, HeadPosition.Y - LegPosition.Y)
                         BoxOutline.Position = Vector2.new(RootPosition.X - BoxOutline.Size.X / 2, RootPosition.Y - BoxOutline.Size.Y / 2)
                         --BoxOutline.Visible = false
@@ -442,13 +441,8 @@ local BoxESP = function ()
                         HealthBar.Color = Color3.fromRGB(255 - 255 / (workspace[v.Character.Name].Humanoid.MaxHealth / workspace[v.Character.Name].Humanoid.Health), 255 / (workspace[v.Character.Name].Humanoid.MaxHealth / workspace[v.Character.Name].Humanoid.Health), 0)
                         --HealthBar.Visible = false
     
-                        if v.TeamColor == lplr.TeamColor then
-                            BoxOutline.Visible = false
-                            Box.Visible = false
-                            HealthBar.Visible = false
-                            HealthBarOutline.Visible = false
-                        else
-    
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
+
                             if Toggles.boxes.Value == true then
                                 BoxOutline.Visible = true
                                 Box.Visible = true
@@ -464,7 +458,12 @@ local BoxESP = function ()
                                 HealthBar.Visible = false
                                 HealthBarOutline.Visible = false
                             end
-    
+
+                        else
+                            BoxOutline.Visible = false
+                            Box.Visible = false
+                            HealthBar.Visible = false
+                            HealthBarOutline.Visible = false
                         end
     
                     else
@@ -520,6 +519,8 @@ local HeadDotESP = function ()
     
                     if onScreen == true and Toggles.head_dot.Value == true then
     
+                        local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                         HeadCircle.Position = Vector2.new(HeadPosition.X / 1, HeadPosition.Y / 1)
                         HeadCircle.Radius = 350 / RootPosition.Z
                         HeadCircle.Visible = true
@@ -527,14 +528,15 @@ local HeadDotESP = function ()
                         CircleOutline.Position = Vector2.new(HeadPosition.X / 1, HeadPosition.Y / 1)
                         CircleOutline.Radius = 350 / RootPosition.Z
                         CircleOutline.Visible = true
-    
-                        if v.TeamColor == lplr.TeamColor then
-                            HeadCircle.Visible = false
-                            CircleOutline.Visible = false
-                        else
+
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             HeadCircle.Visible = true
                             CircleOutline.Visible = true
+                        else
+                            HeadCircle.Visible = false
+                            CircleOutline.Visible = false
                         end
+
                     else
                         HeadCircle.Visible = false
                         CircleOutline.Visible = false
@@ -580,6 +582,8 @@ local HeadDotESP = function ()
     
                     if onScreen == true and Toggles.head_dot.Value == true then
     
+                        local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                         HeadCircle.Position = Vector2.new(HeadPosition.X / 1, HeadPosition.Y / 1)
                         HeadCircle.Radius = 350 / RootPosition.Z
                         HeadCircle.Visible = true
@@ -588,13 +592,14 @@ local HeadDotESP = function ()
                         CircleOutline.Radius = 350 / RootPosition.Z
                         CircleOutline.Visible = true
     
-                        if v.TeamColor == lplr.TeamColor then
-                            HeadCircle.Visible = false
-                            CircleOutline.Visible = false
-                        else
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             HeadCircle.Visible = true
                             CircleOutline.Visible = true
+                        else
+                            HeadCircle.Visible = false
+                            CircleOutline.Visible = false
                         end
+
                     else
                         HeadCircle.Visible = false
                         CircleOutline.Visible = false
@@ -620,7 +625,7 @@ local NametagESP = function ()
         NameESP.Visible = false
         NameESP.Center = true
         NameESP.Outline = true
-        NameESP.Font = UIFont
+        NameESP.Font = Options.SelectedFont.Value
         NameESP.Size = Options.FontSize.Value
         NameESP.Color = Options.nameColor.Value
         NameESP.Text = v.Name
@@ -637,7 +642,7 @@ local NametagESP = function ()
     
                     NameESP.Color = Options.nameColor.Value
                     NameESP.Size = Options.FontSize.Value
-                    NameESP.Font = UIFont
+                    NameESP.Font = Options.SelectedFont.Value
 
                     if onScreen == true and Toggles.name_tags.Value == true then
     
@@ -645,11 +650,12 @@ local NametagESP = function ()
     
                         NameESP.Position = Vector2.new(HeadPosition.X, HeadPosition.Y)
     
-                        if v.TeamColor == lplr.TeamColor then
-                            NameESP.Visible = false
-                        else
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             NameESP.Visible = true
+                        else
+                            NameESP.Visible = false
                         end
+
                     else
                         NameESP.Visible = false
                     end
@@ -668,7 +674,7 @@ local NametagESP = function ()
         NameESP.Visible = false
         NameESP.Center = true
         NameESP.Outline = true
-        NameESP.Font = UIFont
+        NameESP.Font = Options.SelectedFont.Value
         NameESP.Size = Options.FontSize.Value
         NameESP.Color = Options.nameColor.Value
         NameESP.Text = v.Name
@@ -684,7 +690,7 @@ local NametagESP = function ()
     
                     NameESP.Color = Options.nameColor.Value
                     NameESP.Size = Options.FontSize.Value
-                    NameESP.Font = UIFont
+                    NameESP.Font = Options.SelectedFont.Value
     
                     if onScreen == true and Toggles.name_tags.Value == true then
     
@@ -692,11 +698,12 @@ local NametagESP = function ()
     
                         NameESP.Position = Vector2.new(HeadPosition.X, HeadPosition.Y)
     
-                        if v.TeamColor == lplr.TeamColor then
-                            NameESP.Visible = false
-                        else
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             NameESP.Visible = true
+                        else
+                            NameESP.Visible = false
                         end
+
                     else
                         NameESP.Visible = false
                     end
@@ -721,7 +728,7 @@ local DistanceESP = function ()
         DistESP.Visible = false
         DistESP.Center = true
         DistESP.Outline = true
-        DistESP.Font = UIFont
+        DistESP.Font = Options.SelectedFont.Value
         DistESP.Size = Options.FontSize.Value
         DistESP.Color = Options.nameColor.Value
         DistESP.Text = ""
@@ -736,10 +743,12 @@ local DistanceESP = function ()
                     local RootPosition, RootVis = worldToViewportPoint(CurrentCamera, RootPart.Position)  
                     local LegPosition = worldToViewportPoint(CurrentCamera, RootPart.Position - LegOff)
     
-                    DistESP.Font = UIFont
+                    DistESP.Font = Options.SelectedFont.Value
                     DistESP.Size = Options.FontSize.Value
                     DistESP.Color = Options.nameColor.Value
-                    
+
+                    --  or texts < 300 
+
                     if onScreen == true and Toggles.distance.Value == true then
     
                         local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
@@ -747,12 +756,13 @@ local DistanceESP = function ()
                         DistESP.Position = Vector2.new(LegPosition.X, LegPosition.Y)
                         
                         DistESP.Text = tostring("(" .. texts .. ")")
-    
-                        if v.TeamColor == lplr.TeamColor then
-                            DistESP.Visible = false
-                        else
+
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             DistESP.Visible = true
+                        else
+                            DistESP.Visible = false
                         end
+
                     else
                         DistESP.Visible = false
                     end
@@ -770,7 +780,7 @@ local DistanceESP = function ()
         DistESP.Visible = false
         DistESP.Center = true
         DistESP.Outline = true
-        DistESP.Font = UIFont
+        DistESP.Font = Options.SelectedFont.Value
         DistESP.Size = Options.FontSize.Value
         DistESP.Color = Options.nameColor.Value
         DistESP.Text = ""
@@ -784,7 +794,7 @@ local DistanceESP = function ()
                     local RootPosition, RootVis = worldToViewportPoint(CurrentCamera, RootPart.Position)  
                     local LegPosition = worldToViewportPoint(CurrentCamera, RootPart.Position - LegOff)
     
-                    DistESP.Font = UIFont
+                    DistESP.Font = Options.SelectedFont.Value
                     DistESP.Size = Options.FontSize.Value
                     DistESP.Color = Options.nameColor.Value
                     
@@ -796,11 +806,12 @@ local DistanceESP = function ()
                         
                         DistESP.Text = tostring("(" .. texts .. ")")
     
-                        if v.TeamColor == lplr.TeamColor then
-                            DistESP.Visible = false
-                        else
+                        if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                             DistESP.Visible = true
+                        else
+                            DistESP.Visible = false
                         end
+
                     else
                         DistESP.Visible = false
                     end
@@ -840,6 +851,8 @@ local SnaplineESP = function ()
     
                 if onScreen and Toggles.snaplines.Value == true then
     
+                    local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                     if Options.SnaplinePart.Value == "Head" then
                         lineSnap.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
                         lineSnap.To = Vector2.new(HeadPosition.X, HeadPosition.Y)
@@ -857,11 +870,12 @@ local SnaplineESP = function ()
     
                     end
     
-                    if v.TeamColor == lplr.TeamColor then
-                        lineSnap.Visible = false
-                    else
+                    if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                         lineSnap.Visible = true
+                    else
+                        lineSnap.Visible = false
                     end
+
                 else
                     lineSnap.Visible = false
                 end
@@ -892,6 +906,8 @@ local SnaplineESP = function ()
     
                 if onScreen and Toggles.snaplines.Value == true then
     
+                    local texts = math.ceil((RootPart.Position - game:GetService("Workspace").Camera.CFrame.Position).magnitude)
+
                     if Options.SnaplinePart.Value == "Head" then
                         lineSnap.From = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 1)
                         lineSnap.To = Vector2.new(HeadPosition.X, HeadPosition.Y)
@@ -909,11 +925,12 @@ local SnaplineESP = function ()
     
                     end
     
-                    if v.TeamColor == lplr.TeamColor then
-                        lineSnap.Visible = false
-                    else
+                    if v.TeamColor ~= lplr.TeamColor and texts <= Options.esp_distance.Value then
                         lineSnap.Visible = true
+                    else
+                        lineSnap.Visible = false
                     end
+
                 else
                     lineSnap.Visible = false
                 end
@@ -953,6 +970,7 @@ function gunChams()
                     
                     v.BrickColor = BrickColor.new(Options.gunColor.Value)
                     v.Material = Options.gun_mat.Value
+                    --v.Transparency = Options.gun_chams_transparency.Value / 100
                 end
             end
         end
@@ -968,7 +986,7 @@ function localChams()
                     
                     v.BrickColor = BrickColor.new(Options.handColor.Value)
                     v.Material = Options.hand_mat.Value
-                    v.Transparency = Options.hand_chams_transparency.Value
+                    v.Transparency = Options.hand_chams_transparency.Value / 100
 
                 end
                 
@@ -993,11 +1011,11 @@ function chams()
                             box.Size = b.Size
                             box.Color3 = Options.eColor.Value
                             box.ZIndex = 1                                         
-                            box.Transparency = Options.enemy_chams_transparency.Value
+                            box.Transparency = Options.enemy_chams_transparency.Value / 100
 
                             repeat wait()
                                 box.Color3 = Options.eColor.Value
-                                box.Transparency = Options.enemy_chams_transparency.Value
+                                box.Transparency = Options.enemy_chams_transparency.Value / 100
                                 box.AlwaysOnTop = Toggles.enemy_chams_ontop.Value
                             until Toggles.enemy_chams.Value == false
                         end
@@ -1034,11 +1052,11 @@ function makeCrosshair()
 
             CrosshairDown.Color = Options.crossColor.Value
             CrosshairDown.Thickness = Options.cross_thickness.Value
-            CrosshairDown.Transparency = Options.cross_trans.Value
+            CrosshairDown.Transparency = Options.cross_trans.Value / 100
 
             CrosshairCross.Color = Options.crossColor.Value
             CrosshairCross.Thickness = Options.cross_thickness.Value
-            CrosshairCross.Transparency = Options.cross_trans.Value
+            CrosshairCross.Transparency = Options.cross_trans.Value / 100
 
             if Toggles.crosshair.Value == true then
 
@@ -1098,7 +1116,6 @@ UIS.InputEnded:Connect(function(i)
     end
 end)
 
-
 dwRunService.RenderStepped:Connect(function()
     
     local dist = math.huge -- controls the fov snap stuff
@@ -1157,6 +1174,8 @@ dwRunService.RenderStepped:Connect(function ()
     game:GetService("Players").LocalPlayer.PlayerData.Loadout[Options.loadout.Value].Primary.Skin.Value = Options.primary.Value
     game:GetService("Players").LocalPlayer.PlayerData.Loadout[Options.loadout.Value].Secondary.Skin.Value = Options.secondary.Value
 
+    --game:GetService("Workspace").Camera.FieldOfView = Options.player_fov.Value
+
 end)
 
 -- Exploits
@@ -1183,6 +1202,27 @@ function mapGetter()
 
 end
 coroutine.wrap(mapGetter)()
+
+local function DeleteMap()
+
+    for i,v in pairs(game:GetService("Workspace").Map[CurrentMap]:GetDescendants()) do
+        if v.Name ==  "Part" or v:IsA("MeshPart" )and v.Name ~= "Object_Doors" and v.Name ~= "Barricade" then
+
+            v:Destroy()
+
+        end
+    end
+end
+
+local function TPMoneyStand()
+    workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame = game:GetService("Workspace").Map[CurrentMap].Objective.CFrame * CFrame.new(0,5,0)
+end
+
+Exploits1:AddButton("TP To Money OBJ", TPMoneyStand)
+
+-- game:GetService("Workspace")["Map_Cache"].Objective.Stand
+
+Exploits1:AddButton("Delete Map", DeleteMap)
 
 function gunGetter()
     game:GetService("RunService").RenderStepped:Connect(function ()
@@ -1236,23 +1276,10 @@ local walls = function ()
                 for i,v in pairs(game:GetService("Workspace").Map[CurrentMap]:GetDescendants()) do
                     if v.Name ==  "Part" or v:IsA("MeshPart" )and v.Name ~= "Object_Doors" and v.Name ~= "Barricade" then
     
-                        v.Transparency = Options.wall_transparency.Value
+                        v.Transparency = Options.wall_transparency.Value / 100
 
                     end
     
-                end
-    
-    
-            else
-
-                for i,v in pairs(game:GetService("Workspace").Map[CurrentMap]:GetDescendants()) do
-                    if v.Name ==  "Part" or v:IsA("MeshPart") and v.Name ~= "Object_Doors" and v.Name ~= "Barricade" then
-    
-                        v.Transparency = 0
-
-                    end
-    
-                
                 end
 
             end
@@ -1315,7 +1342,7 @@ local PhaseKey = function ()
             game:GetService("Workspace").Baseplate.CanCollide = true
 
             for i,v in pairs(game:GetService("Workspace").Map[CurrentMap]:GetDescendants()) do
-                if v.Name ==  "Part" or v:IsA("MeshPart") and v.Name ~= "Object_Doors" and v.Name ~= "Barricade" then
+                if v.Name ==  "Part" or v:IsA("MeshPart") and v.Name ~= "Object_Doors" then
     
                     v.CanCollide = false
                     
@@ -1336,7 +1363,7 @@ local PhaseKey = function ()
 
 
             for i,v in pairs(game:GetService("Workspace").Map[CurrentMap]:GetDescendants()) do
-                if v.Name ==  "Part" or v:IsA("MeshPart") and v.Name ~= "Object_Doors" and v.Name ~= "Barricade" then
+                if v.Name ==  "Part" or v:IsA("MeshPart") and v.Name ~= "Object_Doors" then
     
                     v.CanCollide = true
                     
@@ -1496,6 +1523,7 @@ local GunMods = function ()
             
 
         end
+        
     end)
 
 
@@ -1563,5 +1591,6 @@ local RenderEdit = function ()
 
 end
 coroutine.wrap(RenderEdit)()
+
 
 Library:Notify("Loaded Features & Exploits!")
